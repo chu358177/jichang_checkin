@@ -38,6 +38,16 @@ def push_msg(content):
     except Exception as e:
         print('推送失败:', e)
 
+def push_bark(content):
+    try:
+        push_url = (
+            f'https://api.day.app/kviVMLn92FEUU3NgN4DPCJ/{quote(content)}'
+        )
+        resp = requests.post(url=push_url, timeout=15)
+        print('Bark推送状态码:', resp.status_code)
+        print('Bark推送返回:', resp.text)
+    except Exception as e:
+        print('Bark推送失败:', e)
 
 def parse_json_response(resp, name):
     print(f'{name}状态码:', resp.status_code)
@@ -107,6 +117,7 @@ def sign(order, user, pwd):
         content = check_msg if check_msg else str(check_result)
 
         push_msg(content)
+        push_bark(content)
 
     except Exception as e:
         content = f'签到失败：{e}'
@@ -115,6 +126,7 @@ def sign(order, user, pwd):
         traceback.print_exc()
 
         push_msg(content)
+        push_bark(content)
 
     print(f'===账号{order}签到结束===\n')
 
