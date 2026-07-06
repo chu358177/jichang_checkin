@@ -40,5 +40,6 @@ jobs:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWD: ${{ secrets.PASSWD }}
           CONFIG: ${{ secrets.CONFIG }}
+          BARK_KEY: ${{ secrets.BARK_KEY }}
         run: |
           python3 ./main.py
