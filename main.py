@@ -42,6 +42,7 @@ def push_msg(content):
         print('推送失败:', e)
 
 def push_bark(content):
+    print("BARK_KEY:",BARK_KEY)
     if not BARK_KEY:
         return
         
