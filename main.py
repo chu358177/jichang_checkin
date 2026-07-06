@@ -19,6 +19,9 @@ config = os.environ.get('CONFIG', '').strip()
 # Server 酱 Key，可为空
 SCKEY = os.environ.get('SCKEY', '').strip()
 
+#Bark key
+BARK_KEY = os.environ.get('BARK_KEY', '').strip()
+
 login_url = f'{url}/auth/login'
 check_url = f'{url}/user/checkin'
 
@@ -39,11 +42,14 @@ def push_msg(content):
         print('推送失败:', e)
 
 def push_bark(content):
+    if not BARK_KEY:
+        return
+        
     try:
         push_url = (
-            f'https://api.day.app/kviVMLn92FEUU3NgN4DPCJ/{quote(content)}'
+            f'https://api.day.app/{BARK_KEY}/{quote(content)}'
         )
-        resp = requests.post(url=push_url, timeout=15)
+        resp = requests.get(url=push_url, timeout=15)
         print('Bark推送状态码:', resp.status_code)
         print('Bark推送返回:', resp.text)
     except Exception as e:
