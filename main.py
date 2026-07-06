@@ -42,15 +42,21 @@ def push_msg(content):
         print('推送失败:', e)
 
 def push_bark(content):
-    print("BARK_KEY:",BARK_KEY)
+    print("BARK_KEY:", BARK_KEY[:5] + "***" if BARK_KEY else "未获取到")
+    
     if not BARK_KEY:
         return
         
     try:
-        push_url = (
-            f'https://api.day.app/{BARK_KEY}/{quote(content)}'
+        # URL 只需要写到 KEY 即可，不要把内容拼在后面
+        push_url = f'https://api.day.app/{BARK_KEY}'
+        
+        # 使用 POST 请求，将文本放在 data 的 body 字段中
+        resp = requests.post(
+            url=push_url, 
+            data={"body": content}, # Bark 官方支持的 POST 参数
+            timeout=15
         )
-        resp = requests.get(url=push_url, timeout=15)
         print('Bark推送状态码:', resp.status_code)
         print('Bark推送返回:', resp.text)
     except Exception as e:
